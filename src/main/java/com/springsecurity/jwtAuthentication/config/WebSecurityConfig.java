@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Configuration
 public class WebSecurityConfig {
 
@@ -44,14 +46,22 @@ public class WebSecurityConfig {
                 .csrf()
                 .disable();
 
+        // To not use the session
         httpSecurity
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);    //
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // To set the same error. 401 Unauthorized
+        httpSecurity.exceptionHandling().authenticationEntryPoint(
+                (request, response, exception) -> {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
+                }
+        );
 
         httpSecurity
                 .authorizeRequests()
-                .anyRequest()
-                .permitAll();
+                .antMatchers("/auth/login").permitAll()
+                .anyRequest().authenticated();
 
         return httpSecurity.build();
     }
