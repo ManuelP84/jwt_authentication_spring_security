@@ -18,12 +18,12 @@ public class WebSecurityConfig {
 
         httpSecurity
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);    //
 
         httpSecurity
                 .authorizeRequests()
                 .anyRequest()
-                .authenticated();
+                .permitAll();
 
         return httpSecurity.build();
     }

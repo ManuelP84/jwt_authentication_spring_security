@@ -3,10 +3,11 @@ package com.springsecurity.jwtAuthentication.controller;
 import com.springsecurity.jwtAuthentication.entity.Product;
 import com.springsecurity.jwtAuthentication.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -19,5 +20,13 @@ public class ProductController {
     @GetMapping("/products")
     public List<Product> listProducts(){
         return productService.getAllProducts();
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid Product product){
+        Product newProduct = productService.saveProduct(product);
+        return ResponseEntity
+                .created(URI.create("/products/"+newProduct.getId()))
+                .body(newProduct);
     }
 }
