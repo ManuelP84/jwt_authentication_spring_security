@@ -5,7 +5,6 @@ import com.springsecurity.jwtAuthentication.security.filter.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,14 +34,6 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-    /*@Bean
-    public AuthenticationManager authenticationManager(AuthenticationManagerBuilder authBuilder) throws Exception {
-        return authBuilder.userDetailsService(
-                username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found!")))
-                .and().build();
-    }*/
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {

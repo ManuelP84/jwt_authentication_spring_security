@@ -1,6 +1,5 @@
 package com.springsecurity.jwtAuthentication.entity.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
