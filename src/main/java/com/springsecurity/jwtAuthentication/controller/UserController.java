@@ -3,6 +3,7 @@ package com.springsecurity.jwtAuthentication.controller;
 import com.springsecurity.jwtAuthentication.dto.AuthRequestDto;
 import com.springsecurity.jwtAuthentication.dto.AuthResponseDto;
 import com.springsecurity.jwtAuthentication.entity.user.User;
+import com.springsecurity.jwtAuthentication.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,10 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequestDto requestDto){
@@ -30,7 +34,7 @@ public class UserController {
             );
             User user = (User) authentication.getPrincipal();
 
-            String accessToken = "JWT access token";
+            String accessToken = jwtTokenUtil.generateAccessToken(user);  // JWT Token generated
             AuthResponseDto responseDto = new AuthResponseDto(user.getEmail(), accessToken);
 
             return ResponseEntity.ok(responseDto);
