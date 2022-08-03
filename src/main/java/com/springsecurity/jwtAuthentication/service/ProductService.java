@@ -1,6 +1,6 @@
 package com.springsecurity.jwtAuthentication.service;
 
-import com.springsecurity.jwtAuthentication.entity.Product;
+import com.springsecurity.jwtAuthentication.entity.product.Product;
 import com.springsecurity.jwtAuthentication.repository.IProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

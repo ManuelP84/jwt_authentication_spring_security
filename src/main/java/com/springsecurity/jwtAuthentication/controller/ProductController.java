@@ -1,6 +1,6 @@
 package com.springsecurity.jwtAuthentication.controller;
 
-import com.springsecurity.jwtAuthentication.entity.Product;
+import com.springsecurity.jwtAuthentication.entity.product.Product;
 import com.springsecurity.jwtAuthentication.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

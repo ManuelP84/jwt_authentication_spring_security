@@ -1,6 +1,6 @@
 package com.springsecurity.jwtAuthentication.repository;
 
-import com.springsecurity.jwtAuthentication.entity.Product;
+import com.springsecurity.jwtAuthentication.entity.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

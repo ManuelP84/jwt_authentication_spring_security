@@ -1,4 +1,4 @@
-package com.springsecurity.jwtAuthentication.entity;
+package com.springsecurity.jwtAuthentication.entity.product;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

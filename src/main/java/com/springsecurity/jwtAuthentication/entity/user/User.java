@@ -1,4 +1,4 @@
-package com.springsecurity.jwtAuthentication.entity;
+package com.springsecurity.jwtAuthentication.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
