@@ -1,7 +1,9 @@
 package com.springsecurity.jwtAuthentication.security.filter;
 
+import com.springsecurity.jwtAuthentication.entity.user.Role;
 import com.springsecurity.jwtAuthentication.entity.user.User;
 import com.springsecurity.jwtAuthentication.security.JwtTokenUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,14 +45,37 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private void setAuthenticationContext(String accessToken, HttpServletRequest request){
         UserDetails userDetails = getUserDetails(accessToken);
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities());
+
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private UserDetails getUserDetails(String accessToken) {
         User userDetails = new User();
-        String[] subjectArray = jwtTokenUtil.getSubject(accessToken).split(",");
+
+        // Get the claims from the access token
+        Claims claims = jwtTokenUtil.parseClaims(accessToken);
+
+        // Get the roles from the claims
+        String claimRolesStr = (String) claims.get("roles");
+        System.out.println(claimRolesStr);
+        claimRolesStr = claimRolesStr.replace("[", "").replace("]", "");
+        String[] rolesArray = claimRolesStr.split(",");
+
+        // Include the roles in the user details
+        for(String role : rolesArray) {
+            userDetails.addRole(new Role(role));
+        }
+
+        // Get the subject from the claims
+        String subject = (String)claims.get(Claims.SUBJECT);
+        String[] subjectArray = subject.split(",");
+
+        // Include the id and the email to the user details
         userDetails.setId(Integer.parseInt(subjectArray[0]));
         userDetails.setEmail(subjectArray[1]);
 
@@ -59,7 +84,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private Boolean hasAuthorizationHeader(HttpServletRequest request){
         String auth = request.getHeader("Authorization");
-        System.out.println("Authorization header: " + auth);
+        //System.out.println("Authorization header: " + auth);
         if(ObjectUtils.isEmpty(auth) || !auth.startsWith("Bearer")){
             return false;
         }
