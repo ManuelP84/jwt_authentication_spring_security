@@ -2,6 +2,7 @@ package com.springsecurity.jwtAuthentication.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.springsecurity.jwtAuthentication.entity.user.Role;
 import com.springsecurity.jwtAuthentication.entity.user.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,20 @@ public class UserRepositoryTest {
 
         assertThat(saveUser).isNotNull();
         assertThat(saveUser.getId()).isGreaterThan(0);
+    }
+
+    @Test
+    public void testAssignRolesToUser(){
+        Integer userId = 3;
+        Integer customerRoleId = 3;
+        Integer editorRoleId = 4;
+
+        User user = userRepository.findById(userId).get();
+        user.addRole(new Role(customerRoleId));
+        user.addRole(new Role(editorRoleId));
+
+        User updatedUser = userRepository.save(user);
+
+        assertThat(updatedUser.getRoles()).hasSize(2);
     }
 }

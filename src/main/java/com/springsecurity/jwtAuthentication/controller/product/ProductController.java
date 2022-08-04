@@ -1,4 +1,4 @@
-package com.springsecurity.jwtAuthentication.controller;
+package com.springsecurity.jwtAuthentication.controller.product;
 
 import com.springsecurity.jwtAuthentication.entity.product.Product;
 import com.springsecurity.jwtAuthentication.service.ProductService;

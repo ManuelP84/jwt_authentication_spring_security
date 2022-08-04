@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,9 +26,21 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 64)
     private String password;
 
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
     }
 
     @Override

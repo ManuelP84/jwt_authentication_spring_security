@@ -1,4 +1,4 @@
-package com.springsecurity.jwtAuthentication.controller;
+package com.springsecurity.jwtAuthentication.controller.user;
 
 import com.springsecurity.jwtAuthentication.dto.AuthRequestDto;
 import com.springsecurity.jwtAuthentication.dto.AuthResponseDto;
