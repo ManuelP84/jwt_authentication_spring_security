@@ -62,8 +62,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         // Get the roles from the claims
         String claimRolesStr = (String) claims.get("roles");
-        System.out.println(claimRolesStr);
-        claimRolesStr = claimRolesStr.replace("[", "").replace("]", "");
+        claimRolesStr = claimRolesStr
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
         String[] rolesArray = claimRolesStr.split(",");
 
         // Include the roles in the user details
@@ -84,7 +86,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private Boolean hasAuthorizationHeader(HttpServletRequest request){
         String auth = request.getHeader("Authorization");
-        //System.out.println("Authorization header: " + auth);
         if(ObjectUtils.isEmpty(auth) || !auth.startsWith("Bearer")){
             return false;
         }
@@ -94,7 +95,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private String getAccessToken(HttpServletRequest request){
         String auth = request.getHeader("Authorization");
         String token = auth.split(" ")[1].trim();   // Split the header. Example:  Bearer gETgsdGRTY564b
-        System.out.println("Access token: " + token);
+        //System.out.println("Access token: " + token);
         return token;
     }
 }
